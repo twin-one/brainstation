@@ -19,7 +19,7 @@ class App extends Component {
           bitcoinData: response.data
         })
       )
-    .then (console.log(this.state))
+    .then(console.log(this.state))
   }
 
   render() {
