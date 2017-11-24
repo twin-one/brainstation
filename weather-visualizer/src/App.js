@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
+import {Button, Icon, Navbar, Col, Row, Input, NavItem} from 'react-materialize'
 
 /* C3 - react-c3js */
 import C3Chart from 'react-c3js';
@@ -24,7 +25,6 @@ class App extends Component {
   
   getData = () => {
     let url = `http://localhost:8080/${this.state.dateStart}/${this.state.dateEnd}`
-    let data = []
     axios.get(url)
       .then(response => {
 
@@ -33,7 +33,7 @@ class App extends Component {
         this.setState({
             data: {
               columns: [
-                ['data1', ...response.data]
+                ['BitCoin Price Index', ...response.data]
               ]
             }
           })
@@ -45,20 +45,41 @@ class App extends Component {
     
   }
 
-  render() {
-    let bitData = this.state.bitcoinData
+  //Sets new date on selection from user.
+  setDateStart = (e, value) => {
+    this.setState ({
+      dateStart: value
+    })
     console.log(this.state)
+    //Replace console log wiht this.getData
+  }
 
+// same as prior function
+  setDateEnd = (e, value) => {
+    this.setState ({
+      dateEnd: value
+    })
+    console.log(this.state)
+  }
+
+  //Function to change input into format accepted by API
+  dateChange = () => {
+
+  }
+
+  render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-         Get bitcoin data
-        </p>
-        <C3Chart data={this.state.data} />
+        <h3>
+         Bitcoin Price Index Chart
+        </h3>
+        <Row>
+          <Col s={8} offset='s2'>
+            <C3Chart data={this.state.data} />
+            <Input s={6} placeholder="Start Date" name='on' type='date' onChange={this.setDateStart} />
+            <Input s={6} placeholder="End Date" name='on' type='date' onChange={this.setDateStart} />
+          </Col>
+        </Row>  
       </div>
     );
   }
