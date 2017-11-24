@@ -59,7 +59,7 @@ class App extends Component {
   setDateEnd = (e, value) => {
     let newValue = Moment(value).format('YYYY-MM-DD')
     this.setState ({
-      dateEnd: value
+      dateEnd: newValue
     })
     this.getData ()
   }
@@ -75,7 +75,7 @@ class App extends Component {
           <Col s={8} offset='s2'>
             <C3Chart data={this.state.data} />
             <Input s={6} placeholder="Start Date" name='on' type='date' onChange={this.setDateStart} />
-            <Input s={6} placeholder="End Date" name='on' type='date' onChange={this.setDateStart} />
+            <Input s={6} placeholder="End Date" name='on' type='date' onChange={this.setDateEnd} />
           </Col>
         </Row>  
       </div>
