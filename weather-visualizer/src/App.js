@@ -47,8 +47,6 @@ class App extends Component {
     
   }
 
-<<<<<<< HEAD
-=======
   //Sets new date on selection from user.
   setDateStart = (e, value) => {
     let newValue = Moment(value).format('YYYY-MM-DD')
@@ -67,8 +65,6 @@ class App extends Component {
     this.getData ()
   }
 
-
->>>>>>> b79c3cb13c81ebfb783502f69993a5da2717a6a5
   render() {
     return (
       <div className="App">
