@@ -23,19 +23,21 @@ class App extends Component {
   }
   
   getData = () => {
-    let url = 'https://api.coindesk.com/v1/bpi/historical/close.json?start=' + this.state.dateStart + '&end=' + this.state.dateEnd
+    let url = `http://localhost:8080/${this.state.dateStart}/${this.state.dateEnd}`
     let data = []
     axios.get(url)
       .then(response => {
-      data = Object.values(response.data.bpi)
-      this.setState({
-          data: {
-            columns: [
-              ['data1', ...data]
-            ]
-          }
+
+        console.log(response)
+
+        this.setState({
+            data: {
+              columns: [
+                ['data1', ...response.data]
+              ]
+            }
+          })
         })
-      })
   }
 
   componentDidMount() {
