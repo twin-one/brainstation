@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
-import {Button, Icon, Navbar, Col, Row, Input, NavItem} from 'react-materialize'
+import {Button, Icon, Navbar, Col, Row, Input, NavItem} from 'react-materialize';
+import Moment from 'moment';
 
 /* C3 - react-c3js */
 import C3Chart from 'react-c3js';
@@ -47,25 +48,22 @@ class App extends Component {
 
   //Sets new date on selection from user.
   setDateStart = (e, value) => {
+    let newValue = Moment(value).format('YYYY-MM-DD')
     this.setState ({
-      dateStart: value
+      dateStart: newValue
     })
-    console.log(this.state)
-    //Replace console log wiht this.getData
+   this.getData ()
   }
 
 // same as prior function
   setDateEnd = (e, value) => {
+    let newValue = Moment(value).format('YYYY-MM-DD')
     this.setState ({
       dateEnd: value
     })
-    console.log(this.state)
+    this.getData ()
   }
 
-  //Function to change input into format accepted by API
-  dateChange = () => {
-
-  }
 
   render() {
     return (
