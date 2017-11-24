@@ -24,7 +24,7 @@ class App extends Component {
   
   getData = () => {
     let url = `http://localhost:8080/${this.state.dateStart}/${this.state.dateEnd}`
-    let data = []
+    
     axios.get(url)
       .then(response => {
 
@@ -46,9 +46,6 @@ class App extends Component {
   }
 
   render() {
-    let bitData = this.state.bitcoinData
-    console.log(this.state)
-
     return (
       <div className="App">
         <header className="App-header">
