@@ -57,7 +57,6 @@ class App extends Component {
          Get bitcoin data
         </p>
         <C3Chart data={this.state.data} />
-        <button onClick={this.getData}>Get Bitcoin Data</button>
       </div>
     );
   }
