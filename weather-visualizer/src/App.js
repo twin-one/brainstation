@@ -17,10 +17,18 @@ class App extends Component {
       dateStart: "",
       dateEnd: "",
       data: {
+        x: 'x',
         columns: [
           []
         ],
-        
+      },
+      axis: {
+        x: {
+          type: 'timeseries',
+          tick: {
+            format: '%Y-%m-%d'
+        }
+        }
       }
     }
   }
@@ -35,14 +43,14 @@ class App extends Component {
         this.setState({
             data: {
               columns: [
+                ['x', ...keys],
                 ['BitCoin Price Index', ...data]
               ]
             },
             axis: {
-                x: {
-                    type: 'category',
-                    categories: [...keys]
-                }
+              x: {
+                categories: [...keys]
+              }
             }
           })
         })
