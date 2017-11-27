@@ -10,3 +10,9 @@
 .dateButton {
   float: left;
 }
+
+.hidden a.button-collapse {
+  display: none;
+}
+
+

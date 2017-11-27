@@ -125,7 +125,8 @@ xDaysAgo =  (numDays) => {
     console.log(this.state)
     return (
       <div>
-        <Navbar brand='Bitcoin' className="navBar"></Navbar>
+        <Navbar brand='Bitcoin' className={"navBar " + (window.innerWidth <= 992 ? "hidden" : "")}></Navbar>
+
         <div className="App">
           <h3>
           Bitcoin Price Index Chart
