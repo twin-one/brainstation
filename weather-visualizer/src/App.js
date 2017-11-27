@@ -14,8 +14,8 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-      dateStart: '2017-10-01',
-      dateEnd: '2017-10-07',
+      dateStart: "",
+      dateEnd: "",
       data: {
         columns: [
           []
@@ -43,41 +43,74 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.getData ()
+
+    var date = new Date();
+
+    let todaysDate = Moment(date).format('YYYY-MM-DD')
     
+    date.setDate(date.getDate() - 7)
+
+    let sevenDaysAgo = Moment(date).format('YYYY-MM-DD')
+
+    console.log(`convertedDate: ${sevenDaysAgo}`);
+
+    this.setState({
+      dateStart: sevenDaysAgo,
+      dateEnd: todaysDate
+    }, () => this.getData ())
   }
 
-  //Sets new date on selection from user.
+  // Sets new date on selection from user.
   setDateStart = (e, value) => {
     let newValue = Moment(value).format('YYYY-MM-DD')
-    this.setState ({
-      dateStart: newValue
-    })
-   this.getData ()
+
+    this.compareDates(newValue, this.state.dateEnd)
   }
 
-// same as prior function
+  compareDates = (sDate, eDate) => {
+
+    let dateStart = sDate
+    let dateEnd   = eDate
+
+    console.log(`dateStart: ${dateStart}, dateEnd: ${dateEnd}`)
+
+    var d1 = new Date(dateStart);
+    var d2 = new Date(dateEnd);
+
+    if (d1 > d2) {
+      alert("Please check dates. Start date is greater than End date.")
+    } else {
+      this.setState ({
+        dateStart: dateStart,
+        dateEnd: dateEnd
+      }, () => console.log(this.state))
+      this.getData ()
+    }
+  }
+
+  // same as prior function
   setDateEnd = (e, value) => {
     let newValue = Moment(value).format('YYYY-MM-DD')
-    this.setState ({
-      dateEnd: newValue
-    })
-    this.getData ()
+
+    this.compareDates(this.state.dateStart, newValue)
   }
 
   render() {
     return (
-      <div className="App">
-        <h3>
-         Bitcoin Price Index Chart
-        </h3>
-        <Row>
-          <Col s={8} offset='s2'>
-            <C3Chart data={this.state.data} />
-            <Input s={6} placeholder="Start Date" name='on' type='date' onChange={this.setDateStart} />
-            <Input s={6} placeholder="End Date" name='on' type='date' onChange={this.setDateEnd} />
-          </Col>
-        </Row>  
+      <div>
+        <Navbar brand='Bitcoin' className="navBar"></Navbar>
+        <div className="App">
+          <h3>
+          Bitcoin Price Index Chart
+          </h3>
+          <Row>
+            <Col s={8} offset='s2'>
+              <C3Chart data={this.state.data} />
+              <Input s={6} placeholder="Start Date" value={this.state.dateStart} name='on' type='date' onChange={this.setDateStart} />
+              <Input s={6} placeholder="End Date" value={this.state.dateEnd} name='on' type='date' onChange={this.setDateEnd} />
+            </Col>
+          </Row>  
+        </div>
       </div>
     );
   }
