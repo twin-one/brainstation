@@ -20,7 +20,7 @@ app.get('/:startDate/:endDate', (req,res) => {
     let url = 'https://api.coindesk.com/v1/bpi/historical/close.json?start=' + startDate + '&end=' + endDate
     axios.get(url)
         .then(response => {
-            data = Object.values(response.data.bpi)
+            let data = response.data.bpi
             res.send(data)
         })
 })

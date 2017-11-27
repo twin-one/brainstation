@@ -19,7 +19,8 @@ class App extends Component {
       data: {
         columns: [
           []
-        ]
+        ],
+        
       }
     }
   }
@@ -29,35 +30,26 @@ class App extends Component {
 
     axios.get(url)
       .then(response => {
-
-        console.log(response)
-
+        let data = Object.values(response.data)
+        let keys = Object.keys(response.data)
         this.setState({
             data: {
               columns: [
-                ['BitCoin Price Index', ...response.data]
+                ['BitCoin Price Index', ...data]
               ]
+            },
+            axis: {
+                x: {
+                    type: 'category',
+                    categories: [...keys]
+                }
             }
           })
         })
   }
 
   componentDidMount() {
-
-    var date = new Date();
-
-    let todaysDate = Moment(date).format('YYYY-MM-DD')
-    
-    date.setDate(date.getDate() - 7)
-
-    let sevenDaysAgo = Moment(date).format('YYYY-MM-DD')
-
-    console.log(`convertedDate: ${sevenDaysAgo}`);
-
-    this.setState({
-      dateStart: sevenDaysAgo,
-      dateEnd: todaysDate
-    }, () => this.getData ())
+   this.xDaysAgo(7)
   }
 
   // Sets new date on selection from user.
@@ -95,7 +87,34 @@ class App extends Component {
     this.compareDates(this.state.dateStart, newValue)
   }
 
+dateSelect = (e) => {
+  let value = e.target.value
+  if (value === '1') {
+   this.xDaysAgo(7)
+  } else if (value === '2') {
+    this.xDaysAgo(30)
+  } else if (value === '3') {
+    this.xDaysAgo(365)
+  }
+}
+
+xDaysAgo =  (numDays) => {
+  var date = new Date();
+  let todaysDate = Moment(date).format('YYYY-MM-DD')
+  
+  date.setDate(date.getDate() - numDays)
+
+  let sevenDaysAgo = Moment(date).format('YYYY-MM-DD')
+
+  this.setState({
+    dateStart: sevenDaysAgo,
+    dateEnd: todaysDate
+  }, () => this.getData ())
+}
+
+
   render() {
+    console.log(this.state)
     return (
       <div>
         <Navbar brand='Bitcoin' className="navBar"></Navbar>
@@ -105,11 +124,17 @@ class App extends Component {
           </h3>
           <Row>
             <Col s={8} offset='s2'>
-              <C3Chart data={this.state.data} />
-              <Input s={6} placeholder="Start Date" value={this.state.dateStart} name='on' type='date' onChange={this.setDateStart} />
-              <Input s={6} placeholder="End Date" value={this.state.dateEnd} name='on' type='date' onChange={this.setDateEnd} />
+              <C3Chart data={this.state.data} axis={this.state.axis}/>
+              <Input s={12} type='select' label="Date Select" defaultValue='1' onChange={ e => this.dateSelect(e)}>
+                <option value='1'>Last Week</option>
+                <option value='2'>Last Month</option>
+                <option value='3'>Last Year</option>
+              </Input>
+              <Input s={6} label="Start Date" placeholder="Start Date" value={this.state.dateStart} name='on' type='date' onChange={this.setDateStart} />
+              <Input s={6} label="End Date" placeholder="End Date" value={this.state.dateEnd} name='on' type='date' onChange={this.setDateEnd} />
             </Col>
-          </Row>  
+          </Row>
+          
         </div>
       </div>
     );
