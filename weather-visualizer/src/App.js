@@ -68,11 +68,8 @@ class App extends Component {
   }
 
   compareDates = (sDate, eDate) => {
-
     let dateStart = sDate
     let dateEnd   = eDate
-
-    console.log(`dateStart: ${dateStart}, dateEnd: ${dateEnd}`)
 
     var d1 = new Date(dateStart);
     var d2 = new Date(dateEnd);
@@ -120,9 +117,22 @@ xDaysAgo =  (numDays) => {
   }, () => this.getData ())
 }
 
+moneyCalculator = () => {
+  let value = this.input.state.value
+
+  let data = this.state.data.columns[1]
+
+  let startValue = data[1]
+  let endValue = data[data.length -1]
+
+  value = (endValue / startValue * value).toFixed(2)
+
+  this.setState({
+    moneyTrain: value
+  })
+}
 
   render() {
-    console.log(this.state)
     return (
       <div>
         <Navbar brand='Bitcoin' className={"navBar " + (window.innerWidth <= 992 ? "hidden" : "")}></Navbar>
@@ -142,8 +152,21 @@ xDaysAgo =  (numDays) => {
               <Input s={6} label="Start Date" placeholder="Start Date" value={this.state.dateStart} name='on' type='date' onChange={this.setDateStart} />
               <Input s={6} label="End Date" placeholder="End Date" value={this.state.dateEnd} name='on' type='date' onChange={this.setDateEnd} />
             </Col>
+
+            <Col s={4} offset='s2'>
+              <Input s={12} ref={(input) => { this.input = input }} label="Money Invested" placeholder="Money Invested" type='text'/>
+            </Col>
+            <Col s={4}>
+              <div className="money">
+                How much I missed out on:
+                <br/>
+                ${this.state.moneyTrain}
+              </div>
+            </Col>
+            <Col s={8}>
+              <Button s={6} onClick={this.moneyCalculator}>Button</Button>
+            </Col>
           </Row>
-          
         </div>
       </div>
     );
